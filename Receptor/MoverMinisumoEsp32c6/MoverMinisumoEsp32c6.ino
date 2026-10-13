@@ -8,7 +8,7 @@
 #define D0 3
 #define D1 4
 
-#define D2 6
+#define D2 1// se cambio el pin 6 por el pin 1 
 #define D3 7  
 
 //para apagar el led
@@ -30,6 +30,7 @@ void setup() {
   analogWrite(D1, 0);
   analogWrite(D2, 0);
   analogWrite(D3, 0);
+  
   // UART hardware (NO SoftwareSerial)
   Serial1.begin(9600, SERIAL_8N1, RX, TX);
 
@@ -43,7 +44,7 @@ void loop() {
     resp.trim();
     Serial.println(resp);
 
-    if (resp == "W") {    // ADELANTE
+    if (resp == "S") {    // ADELANTE
       analogWrite(D0, 0); //motor izquierda
       analogWrite(D1, 255);
 
@@ -52,7 +53,7 @@ void loop() {
       Serial.println("Adelante");
     }
 
-    else if (resp == "S") {     // ATRAS
+    else if (resp == "W") {     // ATRAS
       analogWrite(D0, 255);
       analogWrite(D1, 0);   
 
@@ -94,4 +95,7 @@ D0 Y D1 Controlan al motor de la izquierda
 D2 Y D3 controlan el motor de la derecha
 
 nota: verlo de frente
+
+D2 estaba en el pin 6, al encender o resetear la placa mandaba una
+señal al driver y el motor derecho daba un tiron. Se cambio al pin 1 y ya no pasa.
 */

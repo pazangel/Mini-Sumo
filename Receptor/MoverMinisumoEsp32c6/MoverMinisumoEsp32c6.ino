@@ -8,8 +8,8 @@
 #define D0 3
 #define D1 4
 
-#define D2 1// se cambio el pin 6 por el pin 1 
-#define D3 7  
+#define D2 1  // se cambio el pin 6 por el pin 1
+#define D3 7
 
 //para apagar el led
 #define RGB_PIN 8
@@ -18,8 +18,8 @@ Adafruit_NeoPixel rgb(1, RGB_PIN, NEO_GRB + NEO_KHZ800);
 void setup() {
   Serial.begin(9600);
   rgb.begin();
-  rgb.clear();     // Borra color
-  rgb.show();      // Aplica cambios
+  rgb.clear();  // Borra color
+  rgb.show();   // Aplica cambios
 
   pinMode(D0, OUTPUT);
   pinMode(D1, OUTPUT);
@@ -30,60 +30,87 @@ void setup() {
   analogWrite(D1, 0);
   analogWrite(D2, 0);
   analogWrite(D3, 0);
-  
+
   // UART hardware (NO SoftwareSerial)
   Serial1.begin(9600, SERIAL_8N1, RX, TX);
 
   delay(900);
-  
 }
 
 void loop() {
+  rgb.setBrightness(150);//intensidad en la que brilla el led RGB
+  rgb.setPixelColor(0, rgb.Color(255, 0, 0));// pixel 0 o led 0 (el unico que tiene el esp32), en rojo (R, G, B)
+  rgb.show();// aplica el cambio
   if (Serial1.available()) {
     String resp = Serial1.readStringUntil('\n');
     resp.trim();
     Serial.println(resp);
 
-    if (resp == "S") {    // ADELANTE
-      analogWrite(D0, 0); //motor izquierda
-      analogWrite(D1, 255);
+    if (resp.startsWith("W")) {           // ADELANTE
+      int x = resp.substring(2).toInt();  // en la posicion 0 esta la letra, en la posicion 1 esta la coma "," y en la posicion 2 esta la coordenada, tomamos la posicion 2 y la convertimos a entero y la guardamos
 
-      analogWrite(D2, 255);// motor derecha
-      analogWrite(D3, 0);
-      Serial.println("Adelante");
+      if (x == 0) {            // joystick quieto: derecho, a tope
+        analogWrite(D0, 255);  // motor izquierda hacia adelante
+        analogWrite(D1, 0);
+
+        analogWrite(D2, 0);  // motor derecha hacia adelante
+        analogWrite(D3, 255);
+        Serial.println("Adelante");
+
+      } 
+      else if (x > 0) {  // joystick a la izquierda: baja la llanta izquierda del robot (D3)
+        analogWrite(D0, 255);//motor izquierda
+        analogWrite(D1, 0);
+
+        analogWrite(D2, 0);//motor derecha
+        analogWrite(D3, map(x, 50, 515, 255, 0));
+        Serial.println("Adelante e izquierda");
+
+      } else if (x < 0) {  // joystick a la derecha: baja la llanta derecha del robot (D0)
+        analogWrite(D0, map(x, -50, -515, 255, 0));//motor izquierda
+        analogWrite(D1, 0);
+
+        analogWrite(D2, 0);//motor derecha
+        analogWrite(D3, 255);
+        Serial.println("Adelante y derecha");
+      }
     }
 
-    else if (resp == "W") {     // ATRAS
-      analogWrite(D0, 255);
-      analogWrite(D1, 0);   
+else if(resp.startsWith("G")){ // derecha o izquierda
+      int x = resp.substring(2).toInt();  // en la posicion 0 esta la letra, en la posicion 1 esta la coma "," y en la posicion 2 esta la coordenada, tomamos la posicion 2 y la convertimos a entero y la guardamos
 
-      analogWrite(D2, 0);
-      analogWrite(D3, 255);
-      Serial.println("Atras");
-    }
+      if (x > 0) {  // joystick a la izquierda: baja la llanta izquierda del robot (D3)
+        analogWrite(D0, 255);//motor izquierda
+        analogWrite(D1, 0);
 
-    else if (resp == "A") {   // IZQUIERDA (gira sobre su eje)
-      analogWrite(D0, 240);   // motor izquierda hacia atrás
+        analogWrite(D2, 0);//motor derecha
+        analogWrite(D3, map(x, 50, 515, 255, 0));
+        /*
+cuando el joystick manda 50, ese 50 se convierte en 255 (llanta a tope); si fuera 51 tambien seria 255, y si fuera 52 serian 254;
+si fuera 100 seria 228, si fuera 282 seria 128, y si fuera 515 seria 0 (llanta parada).
+        */
+        Serial.println("Adelante e izquierda");
+
+      } else if (x < 0) {  // joystick a la derecha: baja la llanta derecha del robot (D0)
+        analogWrite(D0, map(x, -50, -515, 255, 0));//motor izquierda
+        /*
+cuando el joystick manda -50, ese -50 se convierte en 255 (llanta a tope); si fuera -51 tambien seria 255, y si fuera -52 serian 254;
+si fuera -100 seria 228, si fuera -282 seria 128, y si fuera -515 seria 0 (llanta parada).
+        */
+        analogWrite(D1, 0);
+
+
+        analogWrite(D2, 0);//motor derecha
+        analogWrite(D3, 255);
+        Serial.println("Adelante y derecha");
+      }
+}
+
+    else if (resp == "F") {  // FRENO
+      analogWrite(D0, 0);//motor izquierda
       analogWrite(D1, 0);
 
-      analogWrite(D2, 240);   // motor derecha hacia adelante
-      analogWrite(D3, 0);
-      Serial.println("Izquierda");
-    }
-
-    else if (resp == "D") {   // DERECHA (gira sobre su eje)
-      analogWrite(D0, 0);     // motor izquierda hacia adelante
-      analogWrite(D1, 240);
-
-      analogWrite(D2, 0);     // motor derecha hacia atrás
-      analogWrite(D3, 240);
-      Serial.println("Derecha");
-    }
-
-    else if (resp == "F") {    // FRENO
-      analogWrite(D0, 0);
-      analogWrite(D1, 0);
-      analogWrite(D2, 0);
+      analogWrite(D2, 0);//motor derecha
       analogWrite(D3, 0);
       Serial.println("Freno");
     }

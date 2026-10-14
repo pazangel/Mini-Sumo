@@ -24,8 +24,9 @@ void setup() {
 }
 
 void loop() {
-  //botón
+  //botones
   int botonArriba = Esplora.readButton(SWITCH_UP);
+  int botonAbajo = Esplora.readButton(SWITCH_DOWN);
 
   //Joystick
   int x = Esplora.readJoystickX() - xCenter;  // leer posicion en x menos el valor leido del inicio
@@ -38,6 +39,10 @@ void loop() {
   if (botonArriba == LOW) {
     Serial2.println("W,"+ String(x));  // Adelante y mover derecha o izquierda si se desea
     Serial.println("W,"+ String(x));
+  }
+  else if (botonAbajo == LOW) {
+    Serial2.println("S");   // Atrás
+    Serial.println("S");
   }
 
   else if (x != 0) {

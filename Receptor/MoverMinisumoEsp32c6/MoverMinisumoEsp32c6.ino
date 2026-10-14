@@ -63,11 +63,11 @@ void loop() {
         analogWrite(D1, 0);
 
         analogWrite(D2, 0);//motor derecha
-        analogWrite(D3, map(x, 50, 515, 255, 0));
+        analogWrite(D3, map(x, 50, 515, 255, 100));
         Serial.println("Adelante e izquierda");
 
       } else if (x < 0) {  // joystick a la derecha: baja la llanta derecha del robot (D0)
-        analogWrite(D0, map(x, -50, -515, 255, 0));//motor izquierda
+        analogWrite(D0, map(x, -50, -515, 255, 100));//motor izquierda
         analogWrite(D1, 0);
 
         analogWrite(D2, 0);//motor derecha
@@ -84,7 +84,7 @@ else if(resp.startsWith("G")){ // derecha o izquierda
         analogWrite(D1, 0);
 
         analogWrite(D2, 0);//motor derecha
-        analogWrite(D3, map(x, 50, 515, 255, 0));
+        analogWrite(D3, map(x, 50, 515, 255, 100));
         /*
 cuando el joystick manda 50, ese 50 se convierte en 255 (llanta a tope); si fuera 51 tambien seria 255, y si fuera 52 serian 254;
 si fuera 100 seria 228, si fuera 282 seria 128, y si fuera 515 seria 0 (llanta parada).
@@ -92,7 +92,7 @@ si fuera 100 seria 228, si fuera 282 seria 128, y si fuera 515 seria 0 (llanta p
         Serial.println("Adelante e izquierda");
 
       } else if (x < 0) {  // joystick a la derecha: baja la llanta derecha del robot (D0)
-        analogWrite(D0, map(x, -50, -515, 255, 0));//motor izquierda
+        analogWrite(D0, map(x, -50, -515, 255, 100));//motor izquierda
         /*
 cuando el joystick manda -50, ese -50 se convierte en 255 (llanta a tope); si fuera -51 tambien seria 255, y si fuera -52 serian 254;
 si fuera -100 seria 228, si fuera -282 seria 128, y si fuera -515 seria 0 (llanta parada).
@@ -105,6 +105,15 @@ si fuera -100 seria 228, si fuera -282 seria 128, y si fuera -515 seria 0 (llant
         Serial.println("Adelante y derecha");
       }
 }
+
+if (resp == "S") {    // ATRAS
+      analogWrite(D0, 0); //motor izquierda
+      analogWrite(D1, 255);
+
+      analogWrite(D2, 255);// motor derecha
+      analogWrite(D3, 0);
+      Serial.println("Adelante");
+    }
 
     else if (resp == "F") {  // FRENO
       analogWrite(D0, 0);//motor izquierda

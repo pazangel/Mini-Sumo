@@ -49,12 +49,12 @@ void loop() {
       int x = resp.substring(2).toInt();  // en la posicion 0 esta la letra, en la posicion 1 esta la coma "," y en la posicion 2 esta la coordenada, tomamos la posicion 2 y la convertimos a entero y la guardamos
 
       if (x == 0) {            // joystick quieto: derecho, a tope
-        analogWrite(D0, 255);  // motor izquierda, se enciende solo un lado por completo para que el motor vaya asia el frente
-        analogWrite(D1, 0);
+      analogWrite(D0, 0); //motor izquierda, se enciende solo un lado para que el motor vaya hacia el frente
+      analogWrite(D1, 255);
 
-        analogWrite(D2, 0);  // motor derecha, se enciende solo un lado para que el motor vaya hacia el frente
-        analogWrite(D3, 255);
-        Serial.println("Adelante");
+      analogWrite(D2, 255);// motor derecha, se enciende solo un lado para que el motor vaya hacia el frente
+      analogWrite(D3, 0);
+      Serial.println("Adelante");
 
       }
       // ====== Girar Izquierda =============
@@ -115,12 +115,12 @@ si fuera -100 seria 228, si fuera -282 seria 128, y si fuera -515 seria 0 (llant
 }
 // ============ Atras =================
 if (resp == "S") {    // ATRAS
-      analogWrite(D0, 0); //motor izquierda, se enciende solo un lado para que el motor vaya hacia atras
-      analogWrite(D1, 255);
+        analogWrite(D0, 255);  // motor izquierda, se enciende solo un lado por completo para que el motor vaya hacia atras
+        analogWrite(D1, 0);
 
-      analogWrite(D2, 255);// motor derecha, se enciende solo un lado para que el motor vaya hacia atras
-      analogWrite(D3, 0);
-      Serial.println("Adelante");
+        analogWrite(D2, 0);  // motor derecha, se enciende solo un lado para que el motor vaya hacia atras
+        analogWrite(D3, 255);
+        Serial.println("Atras");
     }
 
 //=========== Freno =================

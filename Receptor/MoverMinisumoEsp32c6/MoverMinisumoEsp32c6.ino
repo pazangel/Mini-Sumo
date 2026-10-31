@@ -62,21 +62,21 @@ void loop() {
         analogWrite(D0, 255);//motor izquierda, se enciende solo un lado para que el motor vaya hacia el frente
         analogWrite(D1, 0);
 
-        analogWrite(D2, map(x, 50, 515, 255, 100));//motor derecha, se enciende solo un lado para que el motor vaya hacia atras, reduciendo el tiempo de encemndido del motor con las coordenadas del joystick
+        analogWrite(D2, map(x, 50, 515, 100, 255));//motor derecha, se enciende solo un lado para que el motor vaya hacia atras, reduciendo el tiempo de encemndido del motor con las coordenadas del joystick
         analogWrite(D3, 0);
 /*
-cuando el joystick manda 50, ese 50 se convierte en 255 (llanta a tope); si fuera 51 tambien seria 255, y si fuera 52 serian 254;
-si fuera 100 seria 228, si fuera 282 seria 128, y si fuera 515 seria 0 (llanta parada).
+cuando el joystick manda 50, ese 50 se convierte en 100 (llanta lenta); si fuera 51 o 52 tambien seria 100, y si fuera 53 seria 101;
+si fuera 100 seria 116, si fuera 282 seria 177, y si fuera 515 seria 255 (llanta a tope).
 */
         Serial.println("Adelante y Izquierda");
 }
 // ================ Girar derecha ===============
        else if (x < 0) {  // joystick a la derecha
         analogWrite(D0, 0);//motor izquierda, se enciende solo un lado para que el motor vaya hacia atras, reduciendo el tiempo de encemndido del motor con las coordenadas del joystick
-        analogWrite(D1, map(x, -50, -515, 255, 100));
+        analogWrite(D1, map(x, -50, -515, 100, 255));
 /*
-cuando el joystick manda -50, ese -50 se convierte en 255 (llanta a tope); si fuera -51 tambien seria 255, y si fuera -52 serian 254;
-si fuera -100 seria 228, si fuera -282 seria 128, y si fuera -515 seria 0 (llanta parada).
+cuando el joystick manda -50, ese -50 se convierte en 100 (llanta lenta); si fuera -51 o -52 tambien seria 100, y si fuera -53 seria 101;
+si fuera -100 seria 116, si fuera -282 seria 177, y si fuera -515 seria 255 (llanta a tope).
 */
         analogWrite(D2, 0);//motor derecha, se enciende solo un lado para que el motor vaya hacia el frente
         analogWrite(D3, 255);
@@ -92,21 +92,21 @@ else if(resp.startsWith("G")){ // derecha o izquierda
         analogWrite(D0, 255);//motor izquierda, se enciende solo un lado para que el motor vaya hacia el frente
         analogWrite(D1, 0);
 
-        analogWrite(D2, map(x, 50, 515, 255, 100));//motor derecha, se enciende solo un lado para que el motor vaya hacia atras, reduciendo el tiempo de encemndido del motor con las coordenadas del joystick
+        analogWrite(D2, map(x, 50, 515, 100, 255));//motor derecha, se enciende solo un lado para que el motor vaya hacia atras, reduciendo el tiempo de encemndido del motor con las coordenadas del joystick
         analogWrite(D3, 0);
 /*
-cuando el joystick manda 50, ese 50 se convierte en 255 (llanta a tope); si fuera 51 tambien seria 255, y si fuera 52 serian 254;
-si fuera 100 seria 228, si fuera 282 seria 128, y si fuera 515 seria 0 (llanta parada).
+cuando el joystick manda 50, ese 50 se convierte en 100 (llanta lenta); si fuera 51 o 52 tambien seria 100, y si fuera 53 seria 101;
+si fuera 100 seria 116, si fuera 282 seria 177, y si fuera 515 seria 255 (llanta a tope).
 */
         Serial.println("Izquierda");
 }
 // ================ Girar derecha ===============
        else if (x < 0) {  // joystick a la derecha
         analogWrite(D0, 0);//motor izquierda, se enciende solo un lado para que el motor vaya hacia atras, reduciendo el tiempo de encemndido del motor con las coordenadas del joystick
-        analogWrite(D1, map(x, -50, -515, 255, 100));
+        analogWrite(D1, map(x, -50, -515, 100, 255));
 /*
-cuando el joystick manda -50, ese -50 se convierte en 255 (llanta a tope); si fuera -51 tambien seria 255, y si fuera -52 serian 254;
-si fuera -100 seria 228, si fuera -282 seria 128, y si fuera -515 seria 0 (llanta parada).
+cuando el joystick manda -50, ese -50 se convierte en 100 (llanta lenta); si fuera -51 o -52 tambien seria 100, y si fuera -53 seria 101;
+si fuera -100 seria 116, si fuera -282 seria 177, y si fuera -515 seria 255 (llanta a tope).
 */
         analogWrite(D2, 0);//motor derecha, se enciende solo un lado para que el motor vaya hacia el frente
         analogWrite(D3, 255);

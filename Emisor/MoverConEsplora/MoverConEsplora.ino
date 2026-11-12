@@ -27,6 +27,8 @@ void loop() {
   //botones
   int botonArriba = Esplora.readButton(SWITCH_UP);
   int botonAbajo = Esplora.readButton(SWITCH_DOWN);
+  int botonIzquierda = Esplora.readButton(SWITCH_LEFT);
+  int botonDerecha = Esplora.readButton(SWITCH_RIGHT);
 
   //Joystick
   int x = Esplora.readJoystickX() - xCenter;  // leer posicion en x menos el valor leido del inicio
@@ -50,6 +52,15 @@ void loop() {
     Serial.println("G," + String(x));
   }
 
+  else if(botonIzquierda == LOW) {
+  Serial2.println("L");  // Giro rápido a la izquierda
+  Serial.println("L");
+  }
+
+  else if (botonDerecha == LOW) {
+  Serial2.println("R");  // Giro rápido a la derecha
+  Serial.println("R");
+  }
   else {
     Serial2.println("F");  // Freno
     Serial.println("F");
